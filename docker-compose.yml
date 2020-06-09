@@ -1,0 +1,36 @@
+version: "2.1"
+services:
+  mariadb:
+    image: linuxserver/mariadb
+    container_name: mariadb
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - MYSQL_ROOT_PASSWORD=myrootpassword123123
+      # - TZ=Europe/London
+      - MYSQL_DATABASE=basicdb
+      - MYSQL_USER=myuser
+      - MYSQL_PASSWORD=mydbpassword123123
+    # - REMOTE_SQL=http://URL1/your.sql,https://URL2/your.sql #optional
+    volumes:
+      - ./db:/config
+    ports:
+      - 3306:3306
+    restart: unless-stopped
+  
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    environment:
+      PMA_HOST: mariadb
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: mydbpassword123123
+      MYSQL_ROOT_PASSWORD: myrootpassword123123
+    restart: always
+    ports:
+      - 8080:8080
+    volumes:
+     - /sessions
+    depends_on:
+      - mariadb
+
