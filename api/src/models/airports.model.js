@@ -25,6 +25,9 @@ module.exports = function (app) {
       
       
   }, {
+    charset: 'utf8',
+    collate: 'utf8_bin', // this is to allow for 4-byte utf-8 chars
+    timestamps: false,
     hooks: {
       beforeCount(options) {
         options.raw = true;
