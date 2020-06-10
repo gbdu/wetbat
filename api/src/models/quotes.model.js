@@ -5,34 +5,39 @@ const DataTypes = Sequelize.DataTypes;
 
 module.exports = function (app) {
   const sequelizeClient = app.get('sequelizeClient');
-  const contacts = sequelizeClient.define('contacts', {
-    id: {
-      allowNull: false,
-      autoIncrement: true,
-      primaryKey: true,
-      type: Sequelize.INTEGER,
-    },
-    firstName: {
+  const quotes = sequelizeClient.define('quotes', {
+    departure: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    lastName: {
+    destination: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    phone: {
+    transport: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        isEmail: true,
-      }
+    departureDate: {
+      type: DataTypes.DATE,
+      allowNull: false
     },
-      
-      
+    destinationDate: {
+      type: DataTypes.DATE,
+      allowNull: false
+    },
+    numberOfTravellers: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    price: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    status:{
+      type: DataTypes.STRING,
+      defaultValue: 'quote',
+    }
       
   }, {
     hooks: {
@@ -43,11 +48,12 @@ module.exports = function (app) {
   });
 
   // eslint-disable-next-line no-unused-vars
-  contacts.associate = function (models) {
+  quotes.associate = function (models) {
     // Define associations here
     // See http://docs.sequelizejs.com/en/latest/docs/associations/
-    contacts.hasMany(models.quotes, { foreignKey: { allowNull: false }, onDelete: 'CASCADE' });
+    quotes.belongsTo(models.contacts, { foreignKey: { allowNull: false }, onDelete: 'CASCADE' });
+      
   };
 
-  return contacts;
+  return quotes;
 };

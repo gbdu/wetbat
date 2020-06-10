@@ -5,33 +5,23 @@ const DataTypes = Sequelize.DataTypes;
 
 module.exports = function (app) {
   const sequelizeClient = app.get('sequelizeClient');
-  const contacts = sequelizeClient.define('contacts', {
-    id: {
-      allowNull: false,
-      autoIncrement: true,
-      primaryKey: true,
-      type: Sequelize.INTEGER,
-    },
-    firstName: {
+  const airports = sequelizeClient.define('airports', {
+    name: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    lastName: {
+    city: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    phone: {
+    country: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    email: {
+    code: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        isEmail: true,
-      }
+      allowNull: false
     },
-      
       
       
   }, {
@@ -43,11 +33,10 @@ module.exports = function (app) {
   });
 
   // eslint-disable-next-line no-unused-vars
-  contacts.associate = function (models) {
+  airports.associate = function (models) {
     // Define associations here
     // See http://docs.sequelizejs.com/en/latest/docs/associations/
-    contacts.hasMany(models.quotes, { foreignKey: { allowNull: false }, onDelete: 'CASCADE' });
   };
 
-  return contacts;
+  return airports;
 };
