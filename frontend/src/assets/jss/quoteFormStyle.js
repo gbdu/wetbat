@@ -134,12 +134,11 @@ const quoteFormStyle = {
     color: dangerColor[0] + "!important",
   },
   underlineError: {
-    backgroundColor: "#ffaaaa",
-    "&:after": {
-      borderColor: dangerColor[0],
-    },
+    borderBottom: "3px solid #ff0000",
   },
   underlineSuccess: {
+    borderBottom: "3px solid #0000ee",
+
     "&:after": {
       borderColor: successColor[0],
     },

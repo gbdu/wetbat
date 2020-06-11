@@ -7,7 +7,7 @@ import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
 
 // My components
-import QuoteForm from "components/QuoteForm";
+import CreateQuote from "components/CreateQuote";
 import QuotesTable from "components/QuotesTable";
 import FlashMessage, { flashErrorMessage } from "components/FlashMessage";
 
@@ -43,7 +43,7 @@ export default function Quotes() {
         trigger={<button> Trigger</button>}
         modal
       >
-        <QuoteForm />
+        <CreateQuote />
       </Popup>
     </div>
   );

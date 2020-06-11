@@ -6,6 +6,7 @@ import Datetime from "react-datetime";
 import moment from "moment";
 import axios from "axios";
 import classNames from "classnames";
+
 // * UI components
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
@@ -35,17 +36,17 @@ import { makeStyles } from "@material-ui/core/styles";
 import quoteFormStyle from "assets/jss/quoteFormStyle.js";
 const useStyles = makeStyles(quoteFormStyle);
 
-// * QuoteForm component
-export default function QuoteForm() {
-  // contact name field (passed to ContactSelect)
+// * Create quote form component
+export default function CreateQuote() {
+  // contact
   const [contact, setContact] = useState("");
   const [contactValid, setContactValid] = useState("");
 
-  // arrival airport name (passed to AirportSelect)
+  // arrival airport
   const [arrivalAirport, setArrivalAirport] = useState("");
   const [arrivalAirportValid, setArrivalAirportValid] = useState("");
 
-  // departure airport name (passed to AirportSelect)
+  // departure airport
   const [departureAirport, setDepartureAirport] = useState("");
   const [departureAirportValid, setDepartureAirportValid] = useState("");
 
@@ -55,38 +56,39 @@ export default function QuoteForm() {
 
   // departure time
   const [departureDate, setDepartureDate] = useState("");
+  const [departureDateValid, setDepartureDateValid] = useState("");
 
   // number of people
-  const [numberOfTravellers, setNumberOfTravellers] = useState("");
-  const [numberOfTravellersValid, setNumberOfTravellersValid] = useState("");
+  const [numberOfTravellers, setNumberOfTravellers] = useState("1");
 
   // transportation type
-  const [transportation, setTransportation] = useState("");
-  const [transportationValid, setTransportationValid] = useState("");
+  const [transportation, setTransportation] = useState("None");
 
-  const getValidDepartureDate = function (currentDate) {
-    // only allow today and future dates, if arrival date is set, make
-    // sure our departure date is before it.
-
-    let today = moment().subtract(1, "day");
-    return arrivalDate
-      ? currentDate.isAfter(today) && currentDate.isBefore(arrivalDate)
-      : currentDate.isAfter(today);
-  };
+  // Passed to react-datetime for arrival date validation
   const getValidArrivalDate = function (currentDate) {
-    // only allow today and future dates, if departure date is set,
-    // make sure our arrival date  is after it.
-
     let today = moment().subtract(1, "day");
+
+    // Make sure our arrival date is after today and after departure
     return departureDate
-      ? currentDate.isAfter(today) && currentDate.isAfter(departureDate)
+      ? currentDate.isAfter(departureDate) && currentDate.isAfter(today)
       : currentDate.isAfter(today);
   };
 
-  // Quote context
+  // Passed to react-datetime for departure date validation
+  const getValidDepartureDate = function (currentDate) {
+    let today = moment().subtract(1, "day");
+
+    // Make sure our departure date is after today and before arrival
+    return arrivalDate
+      ? currentDate.isBefore(arrivalDate) && currentDate.isAfter(today)
+      : currentDate.isAfter(today);
+  };
+
+  // Quote context for storing state
   const [state, dispatch] = useContext(QuoteContext);
 
-  const postNewQuote = async (data) => {
+  // Post the quote to the API
+  const postQuote = async (data) => {
     try {
       const response = await axios.post("http://localhost:3030/quotes", data);
       dispatch({
@@ -99,21 +101,42 @@ export default function QuoteForm() {
     }
   };
 
-  const typeClick = (e) => {
-    let postData = {
-      departure: departureAirport.code,
-      destination: arrivalAirport.code,
-      transport: transportation,
-      departureDate: departureDate,
-      destinationDate: arrivalDate,
-      numberOfTravellers: numberOfTravellers,
-      price: "100",
-      contactId: contact.id,
-    };
+  // Set validation state for fields so we can style them red/blue
+  // after submission
+  const validateAllForms = () => {
+    // All the fields are selection only, so we only need to worry about
+    // whether they're filled or not.
+    setContactValid(!contact ? "error" : "valid");
+    setArrivalAirportValid(!arrivalAirport ? "error" : "valid");
+    setDepartureAirportValid(!departureAirport ? "error" : "valid");
+    setArrivalDateValid(!arrivalDate ? "error" : "valid");
+    setDepartureDateValid(!departureDate ? "error" : "valid");
 
-    setContactValid("error");
-    // postNewQuote(postData);
-    console.log(postData);
+    // Only return true if all fields have been filled
+    return (
+      contact &&
+      arrivalAirport &&
+      departureAirport &&
+      arrivalAirport &&
+      departureDate
+    );
+  };
+
+  const typeClick = (e) => {
+    if (validateAllForms()) {
+      let postData = {
+        departure: departureAirport.code,
+        destination: arrivalAirport.code,
+        departureDate: departureDate,
+        destinationDate: arrivalDate,
+        price: "100",
+        contactId: contact.id,
+        numberOfTravellers: numberOfTravellers,
+        transport: transportation,
+      };
+      console.log(postData);
+      postQuote(postData);
+    }
   };
 
   const classes = useStyles();
@@ -138,9 +161,13 @@ export default function QuoteForm() {
                 <GridItem xs={12} sm={6}>
                   <ContactSelect
                     label="Find Customer"
-                    valueChangeCallback={setContact}
+                    valueChangeCallback={(e) => {
+                      setContact(e);
+                      setContactValid("valid");
+                    }}
                     className={classNames({
                       [classes.underlineError]: contactValid === "error",
+                      [classes.underlineSuccess]: contactValid === "valid",
                     })}
                   />
                 </GridItem>
@@ -161,14 +188,31 @@ export default function QuoteForm() {
                 <GridItem xs={12} sm={6}>
                   <AirportSelect
                     label="Departure Airport"
-                    valueChangeCallback={setDepartureAirport}
+                    valueChangeCallback={(e) => {
+                      setDepartureAirport(e);
+                      setDepartureAirportValid("valid");
+                    }}
+                    className={classNames({
+                      [classes.underlineError]:
+                        departureAirportValid === "error",
+                      [classes.underlineSuccess]:
+                        departureAirportValid === "valid",
+                    })}
                   />
                 </GridItem>
 
                 <GridItem xs={12} sm={6}>
                   <AirportSelect
                     label="Destination Airport"
-                    valueChangeCallback={setArrivalAirport}
+                    valueChangeCallback={(e) => {
+                      setArrivalAirport(e);
+                      setArrivalAirportValid("valid");
+                    }}
+                    className={classNames({
+                      [classes.underlineError]: arrivalAirportValid === "error",
+                      [classes.underlineSuccess]:
+                        arrivalAirportValid === "valid",
+                    })}
                   />
                 </GridItem>
               </GridContainer>
@@ -177,27 +221,39 @@ export default function QuoteForm() {
                 <GridItem xs={12} sm={6}>
                   <Datetime
                     isValidDate={getValidDepartureDate}
-                    onChange={(date) => setDepartureDate(date)}
-                    inputProps={{ placeholder: "Departure" }}
+                    className={classNames({
+                      [classes.underlineError]: departureDateValid === "error",
+                      [classes.underlineSuccess]:
+                        departureDateValid === "valid",
+                    })}
+                    onChange={(date) => {
+                      setDepartureDate(date);
+                      setDepartureDateValid("valid");
+                    }}
+                    inputProps={{
+                      placeholder: "Departure",
+                      readOnly: true,
+                    }}
                   />
                 </GridItem>
                 <GridItem xs={12} sm={6}>
                   <Datetime
+                    className={classNames({
+                      [classes.underlineError]: arrivalDateValid === "error",
+                      [classes.underlineSuccess]: arrivalDateValid === "valid",
+                    })}
                     isValidDate={getValidArrivalDate}
                     onChange={(date) => {
                       setArrivalDate(date);
-                      console.log(date);
+                      setArrivalDateValid("valid");
                     }}
-                    inputProps={{ placeholder: "Arrival" }}
+                    inputProps={{ placeholder: "Arrival", readOnly: true }}
                   />
                 </GridItem>
               </GridContainer>
               <GridContainer className={classes.formRow}>
                 <GridItem xs={12} sm={6}>
-                  <InputLabel
-                    htmlFor="simple-select"
-                    className={classes.selectLabel}
-                  >
+                  <InputLabel className={classes.selectLabel}>
                     People
                   </InputLabel>
 
@@ -208,13 +264,9 @@ export default function QuoteForm() {
                     classes={{
                       select: classes.select,
                     }}
-                    value={numberOfTravellers}
-                    onChange={(event) =>
-                      setNumberOfTravellers(event.target.value)
-                    }
-                    inputProps={{
-                      name: "simpleSelect",
-                      id: "simple-select",
+                    value={numberOfTravellers === "" ? "1" : numberOfTravellers}
+                    onChange={(event) => {
+                      setNumberOfTravellers(event.target.value);
                     }}
                   >
                     <MenuItem classes={menuItemClass} value="1">
@@ -232,25 +284,12 @@ export default function QuoteForm() {
                   </Select>
                 </GridItem>
                 <GridItem xs={12} sm={6}>
-                  <InputLabel
-                    htmlFor="simple-select2"
-                    className={classes.selectLabel}
-                  >
+                  <InputLabel className={classes.selectLabel}>
                     Transportation
                   </InputLabel>
                   <Select
-                    MenuProps={{
-                      className: classes.selectMenu,
-                    }}
-                    classes={{
-                      select: classes.select,
-                    }}
-                    value={transportation}
                     onChange={(event) => setTransportation(event.target.value)}
-                    inputProps={{
-                      name: "simpleSelect2",
-                      id: "simple-select2",
-                    }}
+                    value={transportation}
                   >
                     <MenuItem classes={menuItemClass} value="None">
                       None

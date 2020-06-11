@@ -36,7 +36,7 @@ const sidebarStyle = (theme) => ({
     left: "0",
     zIndex: "1032",
     transitionProperty: "top, bottom, width",
-    transitionDuration: ".2s, .2s, .35s",
+    transitionDuration: ".1s, .1s, .20s",
     transitionTimingFunction: "linear, linear, ease",
     // overflow: 'auto',
     ...boxShadow,

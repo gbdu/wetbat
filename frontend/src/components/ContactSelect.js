@@ -1,9 +1,10 @@
-// *https://www.registers.service.gov.uk/registers/country/use-the-api*
-import fetch from "cross-fetch";
 import React, { useEffect } from "react";
+
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import CircularProgress from "@material-ui/core/CircularProgress";
+
+import fetch from "cross-fetch";
 
 export default function ContactSelect(props) {
   const [open, setOpen] = React.useState(false);
@@ -20,7 +21,7 @@ export default function ContactSelect(props) {
     (async () => {
       const response = await fetch(
         // "https://country.register.gov.uk/records.json?page-size=5000"
-        "http://localhost:3030/contacts?$limit=1000"
+        "http://localhost:3030/contacts?$limit=5000"
       );
       const contacts = await response.json();
       if (active && contacts.data) {
@@ -32,7 +33,7 @@ export default function ContactSelect(props) {
       } else {
         // Don't show an error if we can't fetch this component
         // asynchronously, just log to console.
-        console.log(contacts);
+        console.log(response);
       }
     })();
 
@@ -71,7 +72,6 @@ export default function ContactSelect(props) {
         <TextField
           {...params}
           label={props.label}
-          variant="outlined"
           InputProps={{
             ...params.InputProps,
             endAdornment: (

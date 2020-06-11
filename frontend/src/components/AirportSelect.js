@@ -69,8 +69,8 @@ export default function AirportSelect(props) {
       renderInput={(params) => (
         <TextField
           {...params}
+          className={props.className}
           label={props.label}
-          variant="outlined"
           InputProps={{
             ...params.InputProps,
 

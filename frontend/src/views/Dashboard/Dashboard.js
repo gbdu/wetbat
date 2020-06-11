@@ -22,7 +22,7 @@ import CardBody from "components/Card/CardBody.js";
 
 import styles from "assets/jss/material-dashboard-pro-react/views/dashboardStyle.js";
 
-import QuoteForm from "components/QuoteForm";
+import CreateQuote from "components/CreateQuote";
 
 const us_flag = require("assets/img/flags/US.png");
 const de_flag = require("assets/img/flags/DE.png");
@@ -51,7 +51,7 @@ export default function Dashboard() {
   const classes = useStyles();
   return (
     <div>
-      <QuoteForm />
+      <CreateQuote />
 
       <GridContainer>
         <GridItem xs={12}>
