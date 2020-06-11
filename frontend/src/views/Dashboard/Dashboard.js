@@ -24,6 +24,8 @@ import styles from "assets/jss/material-dashboard-pro-react/views/dashboardStyle
 
 import CreateQuote from "components/CreateQuote";
 
+import SweetAlertPage from "components/SweetAlert";
+
 const us_flag = require("assets/img/flags/US.png");
 const de_flag = require("assets/img/flags/DE.png");
 const au_flag = require("assets/img/flags/AU.png");
@@ -51,8 +53,12 @@ export default function Dashboard() {
   const classes = useStyles();
   return (
     <div>
-      <CreateQuote />
-
+      <SweetAlertPage />
+      <GridContainer>
+        <GridItem xs={12} sm={8}>
+          <CreateQuote />
+        </GridItem>
+      </GridContainer>
       <GridContainer>
         <GridItem xs={12}>
           <Card>

@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import { flashErrorMessage } from "components/FlashMessage";
 
-import { ContactContext } from "context/contact-context";
+import { ContactContext } from "context/ContactContext";
 import SimpleContactList from "components/SimpleContactList";
 
 import axios from "axios";

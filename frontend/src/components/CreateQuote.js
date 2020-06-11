@@ -27,7 +27,7 @@ import AddCircleIcon from "@material-ui/icons/AddCircle";
 import AirportSelect from "components/AirportSelect";
 import ContactSelect from "components/ContactSelect";
 
-import { QuoteContext } from "../context/quote-context.js";
+import { QuoteContext } from "../context/QuoteContext";
 import { flashErrorMessage } from "components/FlashMessage";
 
 // * Styles

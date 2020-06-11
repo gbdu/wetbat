@@ -7,8 +7,8 @@ import AdminLayout from "layouts/Admin.js";
 
 import "assets/scss/material-dashboard-pro-react.scss?v=1.9.0";
 
-import { ContactContextProvider } from "./context/contact-context";
-import { QuoteContextProvider } from "./context/quote-context";
+import { ContactContextProvider } from "./context/ContactContext";
+import { QuoteContextProvider } from "./context/QuoteContext";
 
 const hist = createBrowserHistory();
 

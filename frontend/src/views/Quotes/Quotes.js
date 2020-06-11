@@ -1,20 +1,29 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Popup from "reactjs-popup";
 import axios from "axios";
+import { QuoteContext } from "context/QuoteContext";
 
 // UI components
+import { makeStyles } from "@material-ui/core/styles";
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
-
+import Button from "components/CustomButtons/Button.js";
 // My components
 import CreateQuote from "components/CreateQuote";
 import QuotesTable from "components/QuotesTable";
 import FlashMessage, { flashErrorMessage } from "components/FlashMessage";
 
-import { QuoteContext } from "context/quote-context";
+import SweetAlert from "react-bootstrap-sweetalert";
+
+import styles from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.js";
+const useStyles = makeStyles(styles);
 
 export default function Quotes() {
+  const classes = useStyles();
   const [state, dispatch] = useContext(QuoteContext);
+
+  const [alert, setAlert] = useState(null); // Stores sweet alert component
+  const [alertConfirmed, setAlertConfirmed] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,9 +42,38 @@ export default function Quotes() {
     fetchData();
   }, [dispatch]);
 
+  const hideAlert = () => {
+    setAlert(null);
+    dispatch({
+      type: "CLEAR_MESSAGE",
+      payload: {},
+    });
+  };
+
+  const messageAlert = (message) => {
+    setAlert(
+      <SweetAlert
+        type={message.type == "error" ? "error" : "success"}
+        style={{ display: "block", marginTop: "-100px" }}
+        title={message.title}
+        onConfirm={() => {
+          hideAlert();
+        }}
+        onCancel={() => hideAlert()}
+        confirmBtnCssClass={classes.button + " " + classes.success}
+      >
+        {message.content}
+      </SweetAlert>
+    );
+    console.log(message);
+  };
+
+  if (state.message.content && !alert) {
+    messageAlert(state.message);
+  }
   return (
     <div>
-      {state.message.content && <FlashMessage message={state.message} />}
+      {alert}
 
       <QuotesTable data={state.quotes} />
       <Popup
