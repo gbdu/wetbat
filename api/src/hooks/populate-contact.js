@@ -2,10 +2,9 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
   return async context => {
     // Get `app`, `method`, `params` and `result` from the hook context
     const { app, method, result, params } = context;
+    
     // Function that adds the user to a single quotes object
-
     const addContact = async quote => {
-
       // Get the contact based on their id, pass the `params` along so
       // that we get a safe version of the user data
       const contact = await app.service('contacts').get(quote.contactId, params);

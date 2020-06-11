@@ -31,6 +31,7 @@ const useStyles = makeStyles(adminStyle);
 
 export default function Dashboard(props) {
   const { ...rest } = props;
+  const classes = useStyles();
   // states and functions
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [miniActive, setMiniActive] = React.useState(true);
@@ -46,7 +47,6 @@ export default function Dashboard(props) {
 
   const [alert, setAlert] = useState(null); // Stores sweet alert component
   // styles
-  const classes = useStyles();
   const mainPanelClasses =
     classes.mainPanel +
     " " +

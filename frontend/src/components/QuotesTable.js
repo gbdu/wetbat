@@ -19,32 +19,6 @@ const useStyles = makeStyles(quotesTableStyle);
 
 export default function QuotesTable(props) {
   const classes = useStyles();
-  // const [active, setActive] = React.useState(props.active);
-  // const handleChange = (event, active) => {
-  //   setActive(active);
-  // };
-  // const handleChangeIndex = (index) => {
-  //   setActive(index);
-  // };
-  // console.log(dataTable.dataRows);
-  // console.log(props.data);
-
-  // const [data, setData] = React.useState(
-  //   props.data.map((prop, key) => {
-  //     console.log("A: " + prop);
-
-  //     return {
-  //       id: key,
-  //       price: prop.price,
-  //       name: prop.contact.firstName,
-  //       destination: prop.destination,
-  //       departure: prop.departure,
-  //       departureDate: prop.departureDate,
-  //       destinationDate: prop.destinationDate,
-  //     };
-  //   })
-  // );
-  // console.log(data);
   props.data.forEach(function (element) {
     element.actions = (
       <div className="actions-right">
@@ -52,7 +26,6 @@ export default function QuotesTable(props) {
           hoverColor="info"
           buttonText="Actions"
           buttonProps={{
-            round: false,
             fullWidth: false,
             color: "info",
           }}
