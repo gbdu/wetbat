@@ -1,42 +1,60 @@
 import React from "react";
+import Popup from "reactjs-popup";
+
+// Material UI components
 import { makeStyles } from "@material-ui/core/styles";
 import Assignment from "@material-ui/icons/Assignment";
+import Button from "@material-ui/core/Button";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
 
-// core components
+// components
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 import CardIcon from "components/Card/CardIcon.js";
 import CardHeader from "components/Card/CardHeader.js";
+
+import CreateQuote from "components/CreateQuote";
+
+// ReactTable
 import ReactTable from "components/ReactTable/ReactTable.js";
 
-import CustomDropdown from "components/CustomDropdown/CustomDropdown.js";
-
+// Style
 import quotesTableStyle from "assets/jss/quotesTableStyle";
-
 const useStyles = makeStyles(quotesTableStyle);
 
+// A table to display quotes, with filtering
 export default function QuotesTable(props) {
   const classes = useStyles();
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  if (!props || !props.data) {
+    return <div>No data passed to QuotesTable</div>;
+  }
+
+  const handleClick = (event) => {
+    console.log(props.data[event.target.value]);
+  };
+
   props.data.forEach(function (element) {
     element.actions = (
       <div className="actions-right">
-        <CustomDropdown
-          hoverColor="info"
-          buttonText="Actions"
-          buttonProps={{
-            fullWidth: false,
-            color: "info",
-          }}
-          dropdownHeader="Customer Actions"
-          dropdownList={[
-            "Convert to service",
-            "Contact",
-            { divider: true },
-            "Edit quote",
-          ]}
-        />
+        <Popup
+          position="left center"
+          trigger={
+            <Button color="primary" value={element.id} onClick={handleClick}>
+              Edit
+            </Button>
+          }
+          contentStyle={{ width: "60%" }}
+        >
+          <CreateQuote popup />
+        </Popup>
+        <Button color="secondary" value={element.id} onClick={handleClick}>
+          Delete
+        </Button>
       </div>
     );
   });
@@ -66,16 +84,6 @@ export default function QuotesTable(props) {
                   Header: "Departure",
                   accessor: "destination",
                 },
-
-                // {
-                //   Header: "Depart Date",
-                //   accessor: "departureDate",
-                // },
-                // {
-                //   Header: "Arrival Date",
-                //   accessor: "destinationDate",
-                // },
-
                 {
                   Header: "Price",
                   accessor: "price",

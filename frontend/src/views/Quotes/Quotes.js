@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import Popup from "reactjs-popup";
+
 import axios from "axios";
 import { QuoteContext } from "context/QuoteContext";
 
@@ -9,7 +9,7 @@ import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
 import Button from "components/CustomButtons/Button.js";
 // My components
-import CreateQuote from "components/CreateQuote";
+
 import QuotesTable from "components/QuotesTable";
 import FlashMessage, { flashErrorMessage } from "components/FlashMessage";
 
@@ -42,13 +42,6 @@ export default function Quotes() {
   return (
     <div>
       <QuotesTable data={state.quotes} />
-      <Popup
-        contentStyle={{ width: "60%" }}
-        trigger={<button> Trigger</button>}
-        modal
-      >
-        <CreateQuote />
-      </Popup>
     </div>
   );
 }

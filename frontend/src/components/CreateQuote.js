@@ -37,7 +37,7 @@ import quoteFormStyle from "assets/jss/quoteFormStyle.js";
 const useStyles = makeStyles(quoteFormStyle);
 
 // * Create quote form component
-export default function CreateQuote() {
+export default function CreateQuote(props) {
   // contact
   const [contact, setContact] = useState("");
   const [contactValid, setContactValid] = useState("");
@@ -149,12 +149,16 @@ export default function CreateQuote() {
   return (
     <GridContainer className={classes.formContainer}>
       <GridItem xs={12} sm={12} md={12}>
-        <Card className={classes.formCard}>
-          <CardHeader color="rose" text>
-            <CardText color="rose">
-              <h4 className={classes.cardTitle}>Create Quote</h4>
-            </CardText>
-          </CardHeader>
+        <Card
+          className={props.popup ? classes.formCardSimple : classes.formCard}
+        >
+          {!props.popup && (
+            <CardHeader color="rose" text>
+              <CardText color="rose">
+                <h4 className={classes.cardTitle}>Create Quote</h4>
+              </CardText>
+            </CardHeader>
+          )}
           <CardBody>
             <form onSubmit={typeClick}>
               <GridContainer spacing={4} className={classes.formRow}>
@@ -171,17 +175,18 @@ export default function CreateQuote() {
                     })}
                   />
                 </GridItem>
-
-                <GridItem xs={12} sm={6}>
-                  <Button
-                    color="rose"
-                    onClick={typeClick}
-                    className={classes.addCustomerButton}
-                  >
-                    <AddCircleIcon />
-                    New customer
-                  </Button>
-                </GridItem>
+                {!props.popup && (
+                  <GridItem xs={12} sm={6}>
+                    <Button
+                      color="rose"
+                      onClick={typeClick}
+                      className={classes.addCustomerButton}
+                    >
+                      <AddCircleIcon />
+                      New customer
+                    </Button>
+                  </GridItem>
+                )}
               </GridContainer>
 
               <GridContainer className={classes.formRow}>

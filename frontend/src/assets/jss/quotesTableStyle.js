@@ -15,6 +15,9 @@ const quotesTableStyle = {
   tableCard: {
     boxShadow: "none",
   },
+  actionsMenu: {
+    boxShadow: "none",
+  },
   tableContainer: {},
   DropdownButton: {},
 };

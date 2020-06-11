@@ -26,6 +26,14 @@ const quoteFormStyle = {
   },
   formCard: {
     paddingBottom: "40px",
+    textAlign: "left",
+  },
+  formCardSimple: {
+    paddingBottom: "40px",
+    boxShadow: "none",
+    textAlign: "left",
+    padding: "0",
+    margin: "0",
   },
   label: {
     cursor: "pointer",
