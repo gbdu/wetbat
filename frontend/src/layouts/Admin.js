@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React from "react";
+import React, { useState, useContext } from "react";
 import cx from "classnames";
 import { Switch, Route, Redirect } from "react-router-dom";
 // creates a beautiful scrollbar
@@ -16,11 +16,18 @@ import Sidebar from "components/Sidebar/Sidebar.js";
 
 import routes from "routes.js";
 
-import styles from "assets/jss/material-dashboard-pro-react/layouts/adminStyle.js";
+import adminStyle from "assets/jss/material-dashboard-pro-react/layouts/adminStyle.js";
+
+import buttonStyle from "assets/jss/material-dashboard-pro-react/components/buttonStyle.js";
+
+import { ContactContext } from "../context/ContactContext";
+import { QuoteContext } from "../context/QuoteContext";
+
+import SweetAlert from "react-bootstrap-sweetalert";
 
 var ps;
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles(adminStyle);
 
 export default function Dashboard(props) {
   const { ...rest } = props;
@@ -33,6 +40,11 @@ export default function Dashboard(props) {
   // const [hasImage, setHasImage] = React.useState(true);
 
   const [logo, setLogo] = React.useState(require("assets/img/logo.png"));
+
+  const [quoteState, quoteDispatch] = useContext(QuoteContext);
+  const [contactState, contactDispatch] = useContext(ContactContext);
+
+  const [alert, setAlert] = useState(null); // Stores sweet alert component
   // styles
   const classes = useStyles();
   const mainPanelClasses =
@@ -116,8 +128,43 @@ export default function Dashboard(props) {
     }
   };
 
+  const hideAlert = (dispatch) => {
+    setAlert(null);
+    dispatch({
+      type: "CLEAR_MESSAGE",
+      payload: {},
+    });
+  };
+
+  const messageAlert = (message, dispatch) => {
+    setAlert(
+      <SweetAlert
+        type={message.type === "error" ? "error" : "success"}
+        style={{ display: "block", marginTop: "-100px" }}
+        title={message.title}
+        onConfirm={() => {
+          hideAlert(dispatch);
+        }}
+        onCancel={() => hideAlert(dispatch)}
+        confirmBtnCssClass={classes.button + " " + classes.success}
+      >
+        {message.content}
+      </SweetAlert>
+    );
+    console.log(message);
+  };
+
+  if (quoteState.message.content && !alert) {
+    messageAlert(quoteState.message, quoteDispatch);
+  }
+
+  if (contactState.message.content && !alert) {
+    messageAlert(contactState.message, contactDispatch);
+  }
+
   return (
     <div className={classes.wrapper}>
+      {alert}
       <Sidebar
         routes={routes}
         logoText={"WetBat"}

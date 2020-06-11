@@ -22,9 +22,6 @@ export default function Quotes() {
   const classes = useStyles();
   const [state, dispatch] = useContext(QuoteContext);
 
-  const [alert, setAlert] = useState(null); // Stores sweet alert component
-  const [alertConfirmed, setAlertConfirmed] = useState(null);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -42,39 +39,8 @@ export default function Quotes() {
     fetchData();
   }, [dispatch]);
 
-  const hideAlert = () => {
-    setAlert(null);
-    dispatch({
-      type: "CLEAR_MESSAGE",
-      payload: {},
-    });
-  };
-
-  const messageAlert = (message) => {
-    setAlert(
-      <SweetAlert
-        type={message.type == "error" ? "error" : "success"}
-        style={{ display: "block", marginTop: "-100px" }}
-        title={message.title}
-        onConfirm={() => {
-          hideAlert();
-        }}
-        onCancel={() => hideAlert()}
-        confirmBtnCssClass={classes.button + " " + classes.success}
-      >
-        {message.content}
-      </SweetAlert>
-    );
-    console.log(message);
-  };
-
-  if (state.message.content && !alert) {
-    messageAlert(state.message);
-  }
   return (
     <div>
-      {alert}
-
       <QuotesTable data={state.quotes} />
       <Popup
         contentStyle={{ width: "60%" }}

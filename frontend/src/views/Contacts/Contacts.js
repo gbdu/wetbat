@@ -24,7 +24,7 @@ const useStyles = makeStyles(styles);
 
 export default function Contacts() {
   const [state, dispatch] = useContext(ContactContext);
-  const classes = useStyles();
+  // const classes = useStyles();
 
   // useEffect(() => {
   //   dispatch({

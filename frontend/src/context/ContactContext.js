@@ -67,6 +67,13 @@ function reducer(state, action) {
         },
       };
     }
+    case "CLEAR_MESSAGE": {
+      return {
+        ...state,
+        message: {},
+      };
+    }
+
     default:
       throw new Error();
   }
