@@ -22,6 +22,15 @@ module.exports = function (app) {
       type: DataTypes.STRING,
       allowNull: false
     },
+    lon: {
+      type: DataTypes.FLOAT(11),
+      allowNull: false
+    },
+    lat: {
+      type: DataTypes.FLOAT(11),
+      allowNull: false
+    },
+      
       
       
   }, {

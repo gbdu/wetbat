@@ -7,13 +7,15 @@ module.exports = {
     let airports = [];
       
     for (let i in airports_file){
-      let {name, city, country, code} = airports_file[i];
+      let {name, city, country, code, lat, lon} = airports_file[i];
       if(name && city && country && code){
         airports.push({
           name,
           city,
           country,
-          code
+          code,
+          lat,
+          lon
         });
       }
     }
