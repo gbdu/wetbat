@@ -39,15 +39,20 @@ const useStyles = makeStyles(quoteFormStyle);
 // * Create quote form component
 export default function CreateQuote(props) {
   // contact
-  const [contact, setContact] = useState("");
+  // alert(props.data.contact.firstName);
+  const [contact, setContact] = useState(props.data ? props.data.contact : "");
   const [contactValid, setContactValid] = useState("");
 
   // arrival airport
-  const [arrivalAirport, setArrivalAirport] = useState("");
+  const [arrivalAirport, setArrivalAirport] = useState(
+    props.data ? props.data.departureAirport : ""
+  );
   const [arrivalAirportValid, setArrivalAirportValid] = useState("");
 
   // departure airport
-  const [departureAirport, setDepartureAirport] = useState("");
+  const [departureAirport, setDepartureAirport] = useState(
+    props.data ? props.data.departureAirport : ""
+  );
   const [departureAirportValid, setDepartureAirportValid] = useState("");
 
   // arrival time
@@ -103,7 +108,7 @@ export default function CreateQuote(props) {
 
   // Set validation state for fields so we can style them red/blue
   // after submission
-  const validateAllForms = () => {
+  const validateAllForms = (dispatch) => {
     // All the fields are selection only, so we only need to worry about
     // whether they're filled or not.
     setContactValid(!contact ? "error" : "valid");
@@ -112,18 +117,26 @@ export default function CreateQuote(props) {
     setArrivalDateValid(!arrivalDate ? "error" : "valid");
     setDepartureDateValid(!departureDate ? "error" : "valid");
 
-    // Only return true if all fields have been filled
-    return (
-      contact &&
-      arrivalAirport &&
-      departureAirport &&
-      arrivalAirport &&
-      departureDate
-    );
+    // Make sure arrival and departure are filled and that they are
+    // not the same airport
+    if (arrivalAirport && departureAirport) {
+      if (arrivalAirport.code === departureAirport.code) {
+        setDepartureAirportValid("error");
+        setArrivalAirportValid("error");
+        flashErrorMessage(dispatch, {
+          type: "error",
+          name: "Error",
+          message: "Arrival and departure airports cannot be the same!",
+        });
+        return false;
+      }
+      // Only return true if all other fields have been filled
+      return contact && arrivalDate && departureDate;
+    }
   };
 
   const typeClick = (e) => {
-    if (validateAllForms()) {
+    if (validateAllForms(dispatch)) {
       let postData = {
         departure: departureAirport.code,
         destination: arrivalAirport.code,
@@ -162,23 +175,34 @@ export default function CreateQuote(props) {
           <CardBody>
             <form onSubmit={typeClick}>
               <GridContainer spacing={4} className={classes.formRow}>
-                <GridItem xs={12} sm={6}>
-                  <ContactSelect
-                    label="Find Customer"
-                    valueChangeCallback={(e) => {
-                      setContact(e);
-                      setContactValid("valid");
-                    }}
-                    className={classNames({
-                      [classes.underlineError]: contactValid === "error",
-                      [classes.underlineSuccess]: contactValid === "valid",
-                    })}
-                  />
-                </GridItem>
+                {props.data && (
+                  <div className={classes.selectedContactName}>
+                    Quote # {props.data.id} for:
+                    <h4>
+                      {props.data.contact.firstName}{" "}
+                      {props.data.contact.lastName}
+                    </h4>
+                  </div>
+                )}
+                {!props.data && (
+                  <GridItem xs={12} sm={6}>
+                    <ContactSelect
+                      label="Find Customer"
+                      valueChangeCallback={(e) => {
+                        setContact(e);
+                        setContactValid("valid");
+                      }}
+                      className={classNames({
+                        [classes.underlineError]: contactValid === "error",
+                        [classes.underlineSuccess]: contactValid === "valid",
+                      })}
+                    />
+                  </GridItem>
+                )}
                 {!props.popup && (
                   <GridItem xs={12} sm={6}>
                     <Button
-                      color="rose"
+                      color="primary"
                       onClick={typeClick}
                       className={classes.addCustomerButton}
                     >

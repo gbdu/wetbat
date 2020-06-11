@@ -4,6 +4,8 @@ const processQuote = require('../../hooks/process-quote');
 
 const populateContact = require('../../hooks/populate-contact');
 
+const populateAirports = require('../../hooks/populate-airports');
+
 module.exports = {
   before: {
     all: [processQuote()],
@@ -17,8 +19,8 @@ module.exports = {
 
   after: {
     all: [populateContact()],
-    find: [],
-    get: [],
+    find: [populateAirports()],
+    get: [populateAirports()],
     create: [],
     update: [],
     patch: [],

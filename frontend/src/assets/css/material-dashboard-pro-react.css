@@ -1647,9 +1647,7 @@ button.rbc-input::-moz-focus-inner {
   -webkit-box-direction: normal;
   -ms-flex-direction: column;
   flex-direction: column;
-  background-color: transparent; 
- 
-}
+  background-color: transparent; }
 
 .ReactTable .actions-right {
   text-align: right; }
@@ -2057,7 +2055,7 @@ button.rbc-input::-moz-focus-inner {
   width: 70px;
   text-align: center;
   border: 0;
-  background-image: linear-gradient(#9c27b0, #9c27b0), linear-gradient(#d2d2d2, #d2d2d2);
+  background-image: linear-gradient(#ff27b0, #9c27b0), linear-gradient(#d2d2d2, #d2d2d2);
   background-size: 0 2px, 100% 1px;
   background-repeat: no-repeat;
   background-position: center bottom, center calc(100% - 1px);
@@ -2070,7 +2068,7 @@ button.rbc-input::-moz-focus-inner {
   width: 100%;
   height: 36px;
   padding: 7px 0;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 1.428571429;
   display: block;
   color: #555; }
@@ -2307,12 +2305,12 @@ blockquote p {
   font-style: italic; }
 
 a {
-  color: #9c27b0;
+  color: #5F6CAF;
   text-decoration: none; }
 
 a:hover,
 a:focus {
-  color: #89229b;
+  color: #5BBFBA;
   text-decoration: none; }
 
 legend {

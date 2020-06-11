@@ -15,6 +15,12 @@ import {
 const quoteFormStyle = {
   ...customSelectStyle,
   addCustomerButton: {},
+  selectedContactName: {
+    color: "#4BcFcA",
+    fontWeight: "bold",
+    fontSize: "18px",
+    borderBottom: "2px solid currentColor",
+  },
   select: {
     minWidth: "100px",
   },
@@ -60,7 +66,6 @@ const quoteFormStyle = {
       boxSizing: "border-box",
       display: "block",
       fontSize: "14px",
-
       listStyle: "none",
       backgroundClip: "padding-box",
     },

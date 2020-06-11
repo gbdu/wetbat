@@ -35,6 +35,7 @@ export default function QuotesTable(props) {
   }
 
   const handleClick = (event) => {
+    console.log("A");
     console.log(props.data[event.target.value]);
   };
 
@@ -42,6 +43,7 @@ export default function QuotesTable(props) {
     element.actions = (
       <div className="actions-right">
         <Popup
+          style={{ padding: "0" }}
           position="left center"
           trigger={
             <Button color="primary" value={element.id} onClick={handleClick}>
@@ -50,7 +52,7 @@ export default function QuotesTable(props) {
           }
           contentStyle={{ width: "60%" }}
         >
-          <CreateQuote popup />
+          <CreateQuote popup data={element} />
         </Popup>
         <Button color="secondary" value={element.id} onClick={handleClick}>
           Delete
@@ -78,11 +80,13 @@ export default function QuotesTable(props) {
                 },
                 {
                   Header: "Destination",
-                  accessor: "departure",
+                  accessor: (row) =>
+                    `${row.destination.city} (${row.destination.code}) `,
                 },
                 {
                   Header: "Departure",
-                  accessor: "destination",
+                  accessor: (row) =>
+                    `${row.departure.city} (${row.departure.code}) `,
                 },
                 {
                   Header: "Price",

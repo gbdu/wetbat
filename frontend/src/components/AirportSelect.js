@@ -69,11 +69,11 @@ export default function AirportSelect(props) {
       renderInput={(params) => (
         <TextField
           {...params}
+          value={props.value}
           className={props.className}
           label={props.label}
           InputProps={{
             ...params.InputProps,
-
             endAdornment: (
               <React.Fragment>
                 {loading ? (
