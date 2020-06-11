@@ -1,5 +1,7 @@
 
 
+const populateAirport = require('../../hooks/populate-airport');
+
 module.exports = {
   before: {
     all: [],
