@@ -2,14 +2,25 @@ from node:lts-alpine
 
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+# Copy this first to ensure caching
+COPY package*.json ./ 
 
 RUN npm install
 
 COPY . .
 
-EXPOSE 3000
+# Build 
+RUN npm run build --production
 
-CMD ["npm", "run", "start"]
+# Install server to serve our build
+RUN npm install -g serve
+
+# Run serve when image is run
+CMD serve -s build
+
+# Let docker know what port serve runs on
+EXPOSE 5000
+
+
 
 
