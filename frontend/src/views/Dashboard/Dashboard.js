@@ -22,7 +22,7 @@ import CardBody from "components/Card/CardBody.js";
 
 import styles from "assets/jss/material-dashboard-pro-react/views/dashboardStyle.js";
 
-import CreateQuote from "components/CreateQuote";
+import CreateQuote from "mycomponents/CreateQuote";
 
 const us_flag = require("assets/img/flags/US.png");
 const de_flag = require("assets/img/flags/DE.png");

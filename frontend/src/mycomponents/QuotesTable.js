@@ -16,7 +16,7 @@ import CardBody from "components/Card/CardBody.js";
 import CardIcon from "components/Card/CardIcon.js";
 import CardHeader from "components/Card/CardHeader.js";
 
-import CreateQuote from "components/CreateQuote";
+import CreateQuote from "mycomponents/CreateQuote";
 
 // ReactTable
 import ReactTable from "components/ReactTable/ReactTable.js";
@@ -37,11 +37,8 @@ export default function QuotesTable(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
-  if (!props || !props.data || props.data == "" ) {
+  if (!props || !props.data || props.data == "") {
     return <div>No data passed to QuotesTable</div>;
-  }
-  else {
-    console.log(props.data);
   }
 
   const handleClick = (event) => {

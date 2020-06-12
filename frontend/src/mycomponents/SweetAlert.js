@@ -1,4 +1,3 @@
-/*eslint-disable*/
 import React from "react";
 import PropTypes from "prop-types";
 // react component used to create sweet alerts
@@ -137,7 +136,7 @@ export default function SweetAlertPage() {
         showCancel
         style={{ display: "block", marginTop: "-100px" }}
         title="Input something"
-        onConfirm={e => {
+        onConfirm={(e) => {
           inputConfirmAlertNext(e);
         }}
         onCancel={() => hideAlert()}
@@ -155,7 +154,7 @@ export default function SweetAlertPage() {
   //     inputConfirmAlertNext();
   //   }, 5000);
   // };
-  const inputConfirmAlertNext = e => {
+  const inputConfirmAlertNext = (e) => {
     setAlert(e);
     inputAlert();
     setTimeout(() => {
@@ -207,7 +206,7 @@ export default function SweetAlertPage() {
   };
   return (
     <div>
-{alert}
+      {alert}
       <GridContainer>
         <GridItem xs={12} sm={12} md={3}>
           <Card>

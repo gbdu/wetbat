@@ -1,37 +1,18 @@
 import React, { useContext, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { flashErrorMessage } from "components/FlashMessage";
+import { flashErrorMessage } from "mycomponents/FlashMessage";
+import SimpleContactList from "mycomponents/SimpleContactList";
 
 import { ContactContext } from "context/ContactContext";
-import SimpleContactList from "components/SimpleContactList";
 
 import axios from "axios";
-
 import styles from "assets/jss/material-dashboard-pro-react/views/dashboardStyle.js";
 
 const useStyles = makeStyles(styles);
 
-// const fakedata = [
-//   {
-//     _id: "1",
-//     firstName: "Ghadeer",
-//     lastName: "Abdul2",
-//     email: "john@gmail.com",
-//     phone: "5879697422",
-//   },
-// ];
-
 export default function Contacts() {
   const [state, dispatch] = useContext(ContactContext);
-  // const classes = useStyles();
-
-  // useEffect(() => {
-  //   dispatch({
-  //     type: "FETCH_CONTACTS",
-  //     payload: fakedata,
-  //   });
-  // }, [dispatch]);
 
   useEffect(() => {
     const fetchData = async () => {

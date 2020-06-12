@@ -24,11 +24,11 @@ import MenuItem from "@material-ui/core/MenuItem";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 
 // * My components
-import AirportSelect from "components/AirportSelect";
-import ContactSelect from "components/ContactSelect";
+import AirportSelect from "mycomponents/AirportSelect";
+import ContactSelect from "mycomponents/ContactSelect";
+import { flashErrorMessage } from "mycomponents/FlashMessage";
 
 import { QuoteContext } from "../context/QuoteContext";
-import { flashErrorMessage } from "components/FlashMessage";
 
 // * Styles
 import { makeStyles } from "@material-ui/core/styles";
@@ -36,7 +36,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import quoteFormStyle from "assets/jss/quoteFormStyle.js";
 const useStyles = makeStyles(quoteFormStyle);
 
-// * Create/edit quote form component, takes props "data" and "simple" (for popup)
+// * Create/edit quote form component, takes props:
+// - "data" for form data
+// - "simple" (boolean for  popup)
+//
 export default function CreateQuote(props) {
   // contact
   const [contact, setContact] = useState(props.data ? props.data.contact : "");
@@ -61,9 +64,8 @@ export default function CreateQuote(props) {
   const [arrivalDateValid, setArrivalDateValid] = useState("");
 
   // departure datetime
-  const [departureDate, setDepartureDate] = useState(
-    props?.data?.departureDate ? props.date.departureDate : ""
-  );
+  const [departureDate, setDepartureDate] = useState("");
+
   const [departureDateValid, setDepartureDateValid] = useState("");
 
   // number of people
@@ -298,7 +300,6 @@ export default function CreateQuote(props) {
                       setDepartureDateValid("valid");
                     }}
                     inputProps={{
-                      value: departureDate,
                       placeholder: "Departure",
                       readOnly: true,
                     }}

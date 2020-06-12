@@ -10,14 +10,14 @@ import GridItem from "components/Grid/GridItem.js";
 import Button from "components/CustomButtons/Button.js";
 // My components
 
-import QuotesTable from "components/QuotesTable";
-import FlashMessage, { flashErrorMessage } from "components/FlashMessage";
+import QuotesTable from "mycomponents/QuotesTable";
+import FlashMessage, { flashErrorMessage } from "mycomponents/FlashMessage";
 
 import SweetAlert from "react-bootstrap-sweetalert";
 
 import styles from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.js";
-const useStyles = makeStyles(styles);
 
+const useStyles = makeStyles(styles);
 export default function Quotes() {
   const classes = useStyles();
   const [state, dispatch] = useContext(QuoteContext);
@@ -42,7 +42,6 @@ export default function Quotes() {
   return (
     <div>
       <QuotesTable data={state.quotes} />
-
     </div>
   );
 }
