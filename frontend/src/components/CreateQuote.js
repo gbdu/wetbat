@@ -36,36 +36,38 @@ import { makeStyles } from "@material-ui/core/styles";
 import quoteFormStyle from "assets/jss/quoteFormStyle.js";
 const useStyles = makeStyles(quoteFormStyle);
 
-// * Create quote form component
+// * Create/edit quote form component, takes props "data" and "simple" (for popup)
 export default function CreateQuote(props) {
   // contact
-  // alert(props.data.contact.firstName);
   const [contact, setContact] = useState(props.data ? props.data.contact : "");
   const [contactValid, setContactValid] = useState("");
 
   // arrival airport, use prop if we're editting
   const [arrivalAirport, setArrivalAirport] = useState(
-    props.data ? props.data.destination : ""
+    props?.data?.destination ? props.data.destination : ""
   );
   const [arrivalAirportValid, setArrivalAirportValid] = useState("");
 
   // departure airport, use prop if we're editting
   const [departureAirport, setDepartureAirport] = useState(
-    props.data ? props.data.departure : ""
+    props?.data?.departure ? props.data.departure : ""
   );
   const [departureAirportValid, setDepartureAirportValid] = useState("");
 
-  // arrival time
-  const [arrivalDate, setArrivalDate] = useState("");
+  // arrival datetime
+  const [arrivalDate, setArrivalDate] = useState(
+    props?.data?.arrivalDate ? props.date.arrivalDate : ""
+  );
   const [arrivalDateValid, setArrivalDateValid] = useState("");
 
-  // departure time
-  const [departureDate, setDepartureDate] = useState("");
+  // departure datetime
+  const [departureDate, setDepartureDate] = useState(
+    props?.data?.departureDate ? props.date.departureDate : ""
+  );
   const [departureDateValid, setDepartureDateValid] = useState("");
 
   // number of people
   const [numberOfTravellers, setNumberOfTravellers] = useState("1");
-
   // transportation type
   const [transportation, setTransportation] = useState("None");
 
@@ -110,7 +112,10 @@ export default function CreateQuote(props) {
   // after submission
   const validateAllForms = (dispatch) => {
     // All the fields are selection only, so we only need to worry about
-    // whether they're filled or not.
+    // whether their state is filled (falsy) or not.
+
+    // Note: I should have used React Form Hooks
+    // These are set out this way to style the input components
     setContactValid(!contact ? "error" : "valid");
     setArrivalAirportValid(!arrivalAirport ? "error" : "valid");
     setDepartureAirportValid(!departureAirport ? "error" : "valid");
@@ -293,6 +298,7 @@ export default function CreateQuote(props) {
                       setDepartureDateValid("valid");
                     }}
                     inputProps={{
+                      value: departureDate,
                       placeholder: "Departure",
                       readOnly: true,
                     }}

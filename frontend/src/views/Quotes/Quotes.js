@@ -42,6 +42,7 @@ export default function Quotes() {
   return (
     <div>
       <QuotesTable data={state.quotes} />
+
     </div>
   );
 }

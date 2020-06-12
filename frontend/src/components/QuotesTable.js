@@ -25,13 +25,23 @@ import ReactTable from "components/ReactTable/ReactTable.js";
 import quotesTableStyle from "assets/jss/quotesTableStyle";
 const useStyles = makeStyles(quotesTableStyle);
 
-// A table to display quotes, with filtering
+// A table to display quotes and edit/delete actions
+// with filtering/sorting, and pagination.
+
+// Our featherJS api pagination by default, and so do our tables, the
+// next step would be to cache only a few rows at a time, until the
+// user actually clicks through to the next page
+
+// *
 export default function QuotesTable(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
-  if (!props || !props.data) {
+  if (!props || !props.data || props.data == "" ) {
     return <div>No data passed to QuotesTable</div>;
+  }
+  else {
+    console.log(props.data);
   }
 
   const handleClick = (event) => {
@@ -39,10 +49,11 @@ export default function QuotesTable(props) {
   };
 
   props.data.forEach(function (element) {
+    // Note: Pop up only appears when the trigger is triggered
+    // TODO: Figure out how to stop multiple Popups from happening
     element.actions = (
       <div className="actions-right">
         <Popup
-          style={{ padding: "0" }}
           position="left center"
           trigger={
             <Button color="primary" value={element.id} onClick={handleClick}>
