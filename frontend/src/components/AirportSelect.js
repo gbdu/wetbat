@@ -58,9 +58,12 @@ export default function AirportSelect(props) {
         setOpen(false);
       }}
       getOptionSelected={(option, value) => option.name === value.name}
-      getOptionLabel={(option) => option.name}
+      getOptionLabel={(option) => {
+        return option.name ? option.name : "";
+      }}
       options={options}
       loading={loading}
+      value={props.value ? props.value : ""}
       onChange={(event, val) => {
         if (props.valueChangeCallback) {
           props.valueChangeCallback(val);
@@ -69,7 +72,6 @@ export default function AirportSelect(props) {
       renderInput={(params) => (
         <TextField
           {...params}
-          value={props.value}
           className={props.className}
           label={props.label}
           InputProps={{

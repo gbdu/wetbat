@@ -43,15 +43,15 @@ export default function CreateQuote(props) {
   const [contact, setContact] = useState(props.data ? props.data.contact : "");
   const [contactValid, setContactValid] = useState("");
 
-  // arrival airport
+  // arrival airport, use prop if we're editting
   const [arrivalAirport, setArrivalAirport] = useState(
-    props.data ? props.data.departureAirport : ""
+    props.data ? props.data.destination : ""
   );
   const [arrivalAirportValid, setArrivalAirportValid] = useState("");
 
-  // departure airport
+  // departure airport, use prop if we're editting
   const [departureAirport, setDepartureAirport] = useState(
-    props.data ? props.data.departureAirport : ""
+    props.data ? props.data.departure : ""
   );
   const [departureAirportValid, setDepartureAirportValid] = useState("");
 
@@ -159,64 +159,96 @@ export default function CreateQuote(props) {
     selected: classes.selectMenuItemSelected,
   };
 
+  // Don't render a card header if we're simple (in popup)
+  const renderCardHeader = () => {
+    if (!props.simple) {
+      return (
+        <CardHeader color="rose" text>
+          <CardText color="rose">
+            <h4 className={classes.cardTitle}>Create Quote</h4>
+          </CardText>
+        </CardHeader>
+      );
+    }
+    return null;
+  };
+
+  // Render contact name and quote if they're passed
+  const renderContactNameHeader = () => {
+    if (props.data && props.data.contact) {
+      return (
+        <div className={classes.selectedContactName}>
+          {props.data.id && <>Quote # {props.data.id} for:</>}
+          <h4>
+            {props.data.contact.firstName} {props.data.contact.lastName}
+          </h4>
+        </div>
+      );
+    }
+    return null;
+  };
+
+  // Render contact selection if contact is not passed
+  const renderContactSelect = () => {
+    if (!props?.data?.contact) {
+      return (
+        <GridItem xs={12} sm={6}>
+          <ContactSelect
+            label="Find Customer"
+            valueChangeCallback={(e) => {
+              setContact(e);
+              setContactValid("valid");
+            }}
+            className={classNames({
+              [classes.underlineError]: contactValid === "error",
+              [classes.underlineSuccess]: contactValid === "valid",
+            })}
+          />
+        </GridItem>
+      );
+    }
+    return null;
+  };
+
+  // render new contact button if we don't have a contact
+  const renderNewContactButton = () => {
+    if (!props?.data?.contact) {
+      return (
+        <GridItem xs={12} sm={6}>
+          <Button
+            color="primary"
+            onClick={typeClick}
+            className={classes.addCustomerButton}
+          >
+            <AddCircleIcon />
+            New customer
+          </Button>
+        </GridItem>
+      );
+    }
+    return null;
+  };
+
   return (
     <GridContainer className={classes.formContainer}>
       <GridItem xs={12} sm={12} md={12}>
         <Card
-          className={props.popup ? classes.formCardSimple : classes.formCard}
+          className={props.simple ? classes.formCardSimple : classes.formCard}
         >
-          {!props.popup && (
-            <CardHeader color="rose" text>
-              <CardText color="rose">
-                <h4 className={classes.cardTitle}>Create Quote</h4>
-              </CardText>
-            </CardHeader>
-          )}
+          {renderCardHeader()}
           <CardBody>
             <form onSubmit={typeClick}>
               <GridContainer spacing={4} className={classes.formRow}>
-                {props.data && (
-                  <div className={classes.selectedContactName}>
-                    Quote # {props.data.id} for:
-                    <h4>
-                      {props.data.contact.firstName}{" "}
-                      {props.data.contact.lastName}
-                    </h4>
-                  </div>
-                )}
-                {!props.data && (
-                  <GridItem xs={12} sm={6}>
-                    <ContactSelect
-                      label="Find Customer"
-                      valueChangeCallback={(e) => {
-                        setContact(e);
-                        setContactValid("valid");
-                      }}
-                      className={classNames({
-                        [classes.underlineError]: contactValid === "error",
-                        [classes.underlineSuccess]: contactValid === "valid",
-                      })}
-                    />
-                  </GridItem>
-                )}
-                {!props.popup && (
-                  <GridItem xs={12} sm={6}>
-                    <Button
-                      color="primary"
-                      onClick={typeClick}
-                      className={classes.addCustomerButton}
-                    >
-                      <AddCircleIcon />
-                      New customer
-                    </Button>
-                  </GridItem>
-                )}
+                {renderContactSelect()}
+                {renderContactNameHeader()}
+                {renderNewContactButton()}
               </GridContainer>
 
               <GridContainer className={classes.formRow}>
                 <GridItem xs={12} sm={6}>
                   <AirportSelect
                     label="Departure Airport"
+                    value={departureAirport}
                     valueChangeCallback={(e) => {
                       setDepartureAirport(e);
                       setDepartureAirportValid("valid");
@@ -233,6 +265,7 @@ export default function CreateQuote(props) {
                 <GridItem xs={12} sm={6}>
                   <AirportSelect
                     label="Destination Airport"
+                    value={arrivalAirport}
                     valueChangeCallback={(e) => {
                       setArrivalAirport(e);
                       setArrivalAirportValid("valid");

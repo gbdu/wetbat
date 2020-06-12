@@ -35,7 +35,6 @@ export default function QuotesTable(props) {
   }
 
   const handleClick = (event) => {
-    console.log("A");
     console.log(props.data[event.target.value]);
   };
 
@@ -52,7 +51,7 @@ export default function QuotesTable(props) {
           }
           contentStyle={{ width: "60%" }}
         >
-          <CreateQuote popup data={element} />
+          <CreateQuote simple data={element} />
         </Popup>
         <Button color="secondary" value={element.id} onClick={handleClick}>
           Delete
