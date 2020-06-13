@@ -1,6 +1,7 @@
 /* eslint-enable no-unused-vars */
 // * Core imports
 import React, { useState, useContext } from "react";
+import Popup from "reactjs-popup";
 
 import Datetime from "react-datetime";
 import moment from "moment";
@@ -26,6 +27,8 @@ import AddCircleIcon from "@material-ui/icons/AddCircle";
 // * My components
 import AirportSelect from "mycomponents/AirportSelect";
 import ContactSelect from "mycomponents/ContactSelect";
+import CreateContact from "mycomponents/CreateContact";
+
 import { flashErrorMessage } from "mycomponents/FlashMessage";
 
 import { QuoteContext } from "../context/QuoteContext";
@@ -139,6 +142,7 @@ export default function CreateQuote(props) {
       // Only return true if all other fields have been filled
       return contact && arrivalDate && departureDate;
     }
+    return false;
   };
 
   const typeClick = (e) => {
@@ -221,14 +225,16 @@ export default function CreateQuote(props) {
     if (!props?.data?.contact) {
       return (
         <GridItem xs={12} sm={6}>
-          <Button
-            color="primary"
-            onClick={typeClick}
-            className={classes.addCustomerButton}
+          <Popup
+            trigger={
+              <Button color="primary" className={classes.addCustomerButton}>
+                New Contact
+              </Button>
+            }
+            contentStyle={{ width: "60%" }}
           >
-            <AddCircleIcon />
-            New customer
-          </Button>
+            <CreateContact />
+          </Popup>
         </GridItem>
       );
     }
