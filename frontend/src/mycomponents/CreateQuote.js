@@ -224,18 +224,21 @@ export default function CreateQuote(props) {
   const renderNewContactButton = () => {
     if (!props?.data?.contact) {
       return (
-        <GridItem xs={12} sm={6}>
-          <Popup
-            trigger={
-              <Button color="primary" className={classes.addCustomerButton}>
-                New Contact
-              </Button>
-            }
-            contentStyle={{ width: "60%" }}
-          >
-            <CreateContact />
-          </Popup>
-        </GridItem>
+        <div>
+          <div className={classes.contactButtonLeft}></div>
+          <div className={classes.contactButtonRight}>
+            <Popup
+              trigger={
+                <Button color="primary" className={classes.addCustomerButton}>
+                  <AddCircleIcon /> New Customer
+                </Button>
+              }
+              contentStyle={{ width: "60%" }}
+            >
+              <CreateContact />
+            </Popup>
+          </div>
+        </div>
       );
     }
     return null;
@@ -248,12 +251,13 @@ export default function CreateQuote(props) {
           className={props.simple ? classes.formCardSimple : classes.formCard}
         >
           {renderCardHeader()}
+
           <CardBody>
+            {renderNewContactButton()}
             <form onSubmit={typeClick}>
               <GridContainer spacing={4} className={classes.formRow}>
                 {renderContactSelect()}
                 {renderContactNameHeader()}
-                {renderNewContactButton()}
               </GridContainer>
 
               <GridContainer className={classes.formRow}>

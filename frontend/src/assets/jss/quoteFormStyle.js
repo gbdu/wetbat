@@ -127,6 +127,17 @@ const quoteFormStyle = {
     marginTop: "15px",
     marginBottom: "0px",
   },
+  contactButtonLeft: {
+    width: "50%",
+    visibility: "hidden",
+    float: "left",
+  },
+  contactButtonRight: {
+    width: "50%",
+    float: "right",
+    justifyContent: "center",
+    textAlign: "center",
+  },
   formCategory: {
     marginBottom: "0",
     color: grayColor[0],

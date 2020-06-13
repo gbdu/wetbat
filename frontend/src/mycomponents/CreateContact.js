@@ -33,10 +33,10 @@ export default function CreateContact() {
   console.log(watch("example")); // watch input value by passing the name of it
 
   return (
-    <div>
+    <div style={{ justifyContent: "center" }}>
       <Divider />
       <br />
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form id="createcontact" onSubmit={handleSubmit(onSubmit)}>
         {/* register your input into the hook by invoking the "register" function */}
         First name:{" "}
         <input name="firstName" ref={register({ required: true })} />

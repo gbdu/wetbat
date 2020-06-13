@@ -30,9 +30,6 @@ module.exports = function (app) {
       type: DataTypes.FLOAT(11),
       allowNull: false
     },
-      
-      
-      
   }, {
     charset: 'utf8',
     collate: 'utf8_bin', // this is to allow for 4-byte utf-8 chars
