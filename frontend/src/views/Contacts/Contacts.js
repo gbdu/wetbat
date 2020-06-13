@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import { flashErrorMessage } from "mycomponents/FlashMessage";
 import SimpleContactList from "mycomponents/SimpleContactList";
-
+import CreateContact from "mycomponents/CreateContact";
 import { ContactContext } from "context/ContactContext";
 
 import axios from "axios";
@@ -33,6 +33,7 @@ export default function Contacts() {
     <div>
       <h1>List of Contacts</h1>
       <SimpleContactList contacts={state.contacts} />
+      <CreateContact />
     </div>
   );
 }

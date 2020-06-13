@@ -116,7 +116,6 @@ export default function CreateQuote(props) {
     // All the fields are selection only, so we only need to worry about
     // whether their state is filled (falsy) or not.
 
-    // Note: I should have used React Form Hooks
     // These are set out this way to style the input components
     setContactValid(!contact ? "error" : "valid");
     setArrivalAirportValid(!arrivalAirport ? "error" : "valid");
@@ -376,7 +375,7 @@ export default function CreateQuote(props) {
           </CardBody>
           <CardFooter className={classes.formFooter}>
             <Button color="rose" onClick={typeClick}>
-              Validate Inputs
+              Validate Inputs and {props.data ? "Modify" : "Create"}
             </Button>
           </CardFooter>
         </Card>

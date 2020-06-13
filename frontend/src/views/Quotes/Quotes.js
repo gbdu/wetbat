@@ -26,6 +26,7 @@ export default function Quotes() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
+          // TODO: pageinate/fetch more quotes as user goes through pages
           "http://localhost:3030/quotes?$limit=1000"
         );
         dispatch({

@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import Popup from "reactjs-popup";
+import axios from "axios";
 
 // Material UI components
 import { makeStyles } from "@material-ui/core/styles";
@@ -16,7 +17,9 @@ import CardBody from "components/Card/CardBody.js";
 import CardIcon from "components/Card/CardIcon.js";
 import CardHeader from "components/Card/CardHeader.js";
 
+import { flashErrorMessage } from "mycomponents/FlashMessage";
 import CreateQuote from "mycomponents/CreateQuote";
+import { QuoteContext } from "../context/QuoteContext";
 
 // ReactTable
 import ReactTable from "components/ReactTable/ReactTable.js";
@@ -28,25 +31,46 @@ const useStyles = makeStyles(quotesTableStyle);
 // A table to display quotes and edit/delete actions
 // with filtering/sorting, and pagination.
 
-// Our featherJS api pagination by default, and so do our tables, the
+// Our featherJS api has pagination by default, and so do our tables, the
 // next step would be to cache only a few rows at a time, until the
 // user actually clicks through to the next page
-
-// *
 export default function QuotesTable(props) {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  // Quote context to display alert
+  const [state, dispatch] = useContext(QuoteContext);
 
   if (!props || !props.data || props.data == "") {
     return <div>No data passed to QuotesTable</div>;
   }
 
+  const deleteQuote = async (id) => {
+    if (id > 0) {
+      try {
+        const response = await axios.delete(
+          `http://localhost:3030/quotes/${id}`
+        );
+        dispatch({
+          type: "DELETE_QUOTE",
+          payload: response.data,
+        });
+      } catch (error) {
+        flashErrorMessage(dispatch, error);
+      }
+    }
+  };
+
   const handleClick = (event) => {
     console.log(props.data[event.target.value]);
   };
 
+  const handleDeleteClick = (event) => {
+    deleteQuote(props.data[event.target.value]);
+  };
+
   props.data.forEach(function (element) {
-    // Note: Pop up only appears when the trigger is triggered
+    // Note: Pop up only appears when button is triggered
     // TODO: Figure out how to stop multiple Popups from happening
     element.actions = (
       <div className="actions-right">
@@ -61,7 +85,13 @@ export default function QuotesTable(props) {
         >
           <CreateQuote simple data={element} />
         </Popup>
-        <Button color="secondary" value={element.id} onClick={handleClick}>
+        <Button
+          color="secondary"
+          value={element.id}
+          onClick={(e) => {
+            deleteQuote(element.id);
+          }}
+        >
           Delete
         </Button>
       </div>
