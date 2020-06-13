@@ -7,6 +7,8 @@ import { ContactContext } from "context/ContactContext";
 import { useForm } from "react-hook-form";
 import Divider from "@material-ui/core/Divider";
 
+import Input from "@material-ui/core/Input";
+
 export default function CreateContact() {
   const [state, dispatch] = useContext(ContactContext);
   const { register, handleSubmit, watch, errors } = useForm();
@@ -21,6 +23,7 @@ export default function CreateContact() {
       });
       // setRedirect(true);
     } catch (error) {
+      console.log(error);
       flashErrorMessage(dispatch, error);
     }
   };
@@ -39,19 +42,24 @@ export default function CreateContact() {
       <form id="createcontact" onSubmit={handleSubmit(onSubmit)}>
         {/* register your input into the hook by invoking the "register" function */}
         First name:{" "}
-        <input name="firstName" ref={register({ required: true })} />
+        <Input name="firstName" inputRef={register({ required: true })} />
         {errors.firstName && <span>This field is required</span>}
         <br /> <br />
-        Last name: <input name="lastName" ref={register({ required: true })} />
+        Last name:{" "}
+        <Input name="lastName" inputRef={register({ required: true })} />
         {errors.lastName && <span>This field is required</span>}
         <br /> <br />
         <Divider />
         <br /> <br />
         Email:{" "}
-        <input name="email" type="email" ref={register({ required: true })} />
+        <Input
+          name="email"
+          type="email"
+          inputRef={register({ required: true })}
+        />
         {errors.email && <span>This field is required</span>}
         <br /> <br />
-        Phone: <input name="phone" ref={register({ required: true })} />
+        Phone: <Input name="phone" inputRef={register({ required: true })} />
         {errors.phone && <span>This field is required</span>}
         <br /> <br />
         <input type="submit" />

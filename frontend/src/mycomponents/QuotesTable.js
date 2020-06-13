@@ -65,10 +65,6 @@ export default function QuotesTable(props) {
     console.log(props.data[event.target.value]);
   };
 
-  const handleDeleteClick = (event) => {
-    deleteQuote(props.data[event.target.value]);
-  };
-
   props.data.forEach(function (element) {
     // Note: Pop up only appears when button is triggered
     // TODO: Figure out how to stop multiple Popups from happening
