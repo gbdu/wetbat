@@ -6,8 +6,6 @@ import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import Assignment from "@material-ui/icons/Assignment";
 import Button from "@material-ui/core/Button";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
 
 // components
 import GridContainer from "components/Grid/GridContainer.js";
@@ -18,8 +16,11 @@ import CardIcon from "components/Card/CardIcon.js";
 import CardHeader from "components/Card/CardHeader.js";
 
 import { flashErrorMessage } from "mycomponents/FlashMessage";
-import CreateQuote from "mycomponents/CreateQuote";
+import CreateOrEditQuote from "mycomponents/CreateOrEditQuote";
 import { QuoteContext } from "../context/QuoteContext";
+
+import PropTypes from "prop-types";
+import apiurl from "api/url";
 
 // ReactTable
 import ReactTable from "components/ReactTable/ReactTable.js";
@@ -36,21 +37,18 @@ const useStyles = makeStyles(quotesTableStyle);
 // user actually clicks through to the next page
 export default function QuotesTable(props) {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = useState(null);
 
   // Quote context to display alert
   const [state, dispatch] = useContext(QuoteContext);
 
-  if (!props || !props.data || props.data == "") {
+  if (!props || !props.data) {
     return <div>No data passed to QuotesTable</div>;
   }
 
   const deleteQuote = async (id) => {
     if (id > 0) {
       try {
-        const response = await axios.delete(
-          `http://localhost:3030/quotes/${id}`
-        );
+        const response = await axios.delete(`${apiurl}/quotes/${id}`);
         dispatch({
           type: "DELETE_QUOTE",
           payload: response.data,
@@ -79,7 +77,7 @@ export default function QuotesTable(props) {
           }
           contentStyle={{ width: "60%" }}
         >
-          <CreateQuote simple data={element} />
+          <CreateOrEditQuote simple data={element} />
         </Popup>
         <Button
           color="secondary"
@@ -138,3 +136,7 @@ export default function QuotesTable(props) {
     </GridContainer>
   );
 }
+
+QuotesTable.propTypes = {
+  data: PropTypes.object,
+};

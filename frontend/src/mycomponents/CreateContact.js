@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import Divider from "@material-ui/core/Divider";
 
 import Input from "@material-ui/core/Input";
-
+import apiurl from "api/url";
 export default function CreateContact() {
   const [state, dispatch] = useContext(ContactContext);
   const { register, handleSubmit, watch, errors } = useForm();
@@ -16,7 +16,7 @@ export default function CreateContact() {
   // Post the quote to the API
   const postContact = async (data) => {
     try {
-      const response = await axios.post("http://localhost:3030/contacts", data);
+      const response = await axios.post(`${apiurl}/contacts`, data);
       dispatch({
         type: "CREATE_CONTACT",
         payload: response.data,

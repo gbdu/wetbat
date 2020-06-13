@@ -17,7 +17,12 @@ services:
     ports:
       - 3306:3306
     restart: unless-stopped
-  
+  api:
+    build: ./api
+    depends_on:
+      - mariadb
+    ports:
+      - "3030:3030"
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: phpmyadmin

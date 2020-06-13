@@ -4,6 +4,7 @@ import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
+import apiurl from "api/url";
 import fetch from "cross-fetch";
 
 export default function ContactSelect(props) {
@@ -19,10 +20,8 @@ export default function ContactSelect(props) {
     }
 
     (async () => {
-      const response = await fetch(
-        // "https://country.register.gov.uk/records.json?page-size=5000"
-        "http://localhost:3030/contacts?$limit=5000"
-      );
+      const response = await fetch(`${apiurl}/contacts?$limit=5000`);
+
       const contacts = await response.json();
       if (active && contacts.data) {
         let c = contacts.data.map((key) => {

@@ -1,11 +1,7 @@
 {
   "development": {
-    "username": "root",
-      "password": "myrootpassword123123",
-    "database": "basicdb",
-    "host": "127.0.0.1",
-    "dialect": "mysql",
-    "operatorsAliases": false
+    "dialect": "sqlite",
+    "storage": "database.sqlite"
   },
   "test": {
     "username": "root",

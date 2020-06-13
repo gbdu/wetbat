@@ -3,11 +3,10 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { QuoteContext } from "context/QuoteContext";
 
+import apiurl from "api/url";
+
 // UI components
 import { makeStyles } from "@material-ui/core/styles";
-import GridContainer from "components/Grid/GridContainer.js";
-import GridItem from "components/Grid/GridItem.js";
-import Button from "components/CustomButtons/Button.js";
 // My components
 
 import QuotesTable from "mycomponents/QuotesTable";
@@ -27,7 +26,7 @@ export default function Quotes() {
       try {
         const response = await axios.get(
           // TODO: pageinate/fetch more quotes as user goes through pages
-          "http://localhost:3030/quotes?$limit=1000"
+          `${apiurl}/quotes?$limit=1000`
         );
         dispatch({
           type: "FETCH_QUOTES",

@@ -1,13 +1,18 @@
 const Sequelize = require('sequelize');
 
 module.exports = function (app) {
-  const connectionString = app.get('mysql');
-  const sequelize = new Sequelize(connectionString, {
-    dialect: 'mysql',
-    logging: false,
-    define: {
-      freezeTableName: true
-    }
+  // const connectionString = app.get('mysql');
+  // const sequelize = new Sequelize(connectionString, {
+  //   dialect: 'mysql',
+  //   logging: false,
+  //   define: {
+  //     freezeTableName: true
+  //   }
+  // });
+
+  const sequelize = new Sequelize({
+    dialect: 'sqlite',
+    storage: 'database.sqlite'
   });
   const oldSetup = app.setup;
 
@@ -25,7 +30,9 @@ module.exports = function (app) {
     });
 
     // Sync to the database
-    app.set('sequelizeSync', sequelize.sync());
+
+    // use alter: true here to drop table and force sync
+    app.set('sequelizeSync', sequelize.sync({force: false }));
 
     return result;
   };

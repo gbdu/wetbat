@@ -1,0 +1,118 @@
+#+SETUPFILE: https://fniessen.github.io/org-html-themes/setup/theme-readtheorg.setup
+#+TITLE: Wetbat Project
+#+OPTIONS: ^:nil
+#+OPTIONS: _:nil
+* Wetbat Project
+** Objective
+Develop RESTful CRUD app to manage airflight quotes
+** Implementation choices
+*** Backend: FeatherJS + sequelize ORM + MySQL/MariaDB
+For the API layer I'm going to use [[https://feathersjs.com/][FeathersJS]] which supports JSON and
+realtime communication via Socket.io -- it also offers a cli which
+makes it easy to generate services/endpoints and processing hooks.
+
+We have a choice between multiple database adapters, but I decided to go
+with [[https://sequelize.org/][sequelize]] which is an ORM that supports Postgres, MySQL, MariaDB,
+SQLite and Microsoft SQL. It also provices a cli for managing
+migrations, model creation, seeding, etc.
+
+I configured it to run with a MariaDB Docker image -- which keeps a
+volume in the db/ directory for data persistance across hosts.
+
+*** Frontend: ReactJS + Material Dashboard Pro components
+I decided to use some pre-styled components from [[https://www.creative-tim.com/product/material-dashboard-pro-react][Material Dashboard]] to
+save time, as well as other packages like react-datetime for time
+selection and sweetalert for alerts and confirmation dialogues. As
+well as the autocompelete from @material-ui/lab.
+
+I used the new [[https://reactjs.org/docs/context.html][Context API]] instead of Redux for global state
+management. 
+
+** Data achitecture
+The API exposes three endpoints:
+
+- /contacts : customer contact info
+- /quotes : quotes associated with customers
+- /airports : a list of airports
+
+We know contacts has a one-to-many relationship with quotes (one user
+can request multiple quotes), this means the quotes table will have a
+"contactId" foreign key column for the associated contact.
+
+We define this relationship in sequelize this way:
+#+BEGIN_SRC javascript
+contacts.hasMany(models.quotes, { foreignKey: { allowNull: false }, onDelete: 'CASCADE' });
+#+END_SRC
+
+
+When the user requests a quote, we don't just want the user ID
+returned, as this means we'd have to make a second request to get the
+contact info, so we create a "hook" in feathers that will populate
+the contact field with the complete contact info and pass it with the
+request. 
+
+[[file:img1.png]]
+
+For the /airports endpoint, I found a JSON file which contained a list
+of airports and their associated codes, as well as coordinates which
+we can use to seed a sequelize model.
+
+The first time I attempted to do this I was presented with an error: 
+
+#+BEGIN_SRC bash
+[~/wetbat/api]$ sequelize-cli db:seed:all                                                                                          *[master] 
+
+Sequelize CLI [Node: 14.4.0, CLI: 5.5.1, ORM: 5.21.12]
+
+Loaded configuration file "config/config.json".
+Using environment "development".
+
+== 20200610011347-airports-from-json: migrating =======
+
+ERROR: Incorrect string value: '\xC4\xB1' for column `basicdb`.`airports`.`city` at row 88
+#+END_SRC
+
+Apparently, Maria/MySQL only supports 3 byte utf8 characters by
+default for string fields, so I had to manually set the collate to
+`utf8_bin` for this particular model, although this should probably be
+set for all other models as well:
+
+#+BEGIN_SRC javascript
+    charset: 'utf8',
+    collate: 'utf8_bin', // this is to allow for 4-byte utf-8 chars
+#+END_SRC
+
+The actual airport column on the quotes table contains only the
+airport code, however we can use another hook to return the associated
+info from the airports table in /quotes as well, so the frontend can
+display the coordinates in [[https://jvectormap.com/][jVectorMap]] 
+
+[[file:img2.png]]
+
+
+** Developer notes
+This is my second React app, and the first time I've deployed
+third-party components. Although I have my own component library for
+VueJS built from scratch with Bootstrap5 styling, I didn't have such
+code on hand for React, so I had to rely on Material Dashboard to save
+time.
+
+This lead me to learning about form validation in React; instead of
+doing validation by hand like I first did in CreateQuote.js, I used
+React Form Hooks for the contact form creation.  Learning a bit more
+about [[https://reactjs.org/docs/refs-and-the-dom.html][React refs and the DOM]] in order to pass the refs to the inner
+components of Material ...
+
+For the API, it was also my first time working with FeathersJS and
+sequelizer, although the same ORM concepts applies with my previous
+experience with django-rest-framework, I actually found the sequelizer
+cli and feather cli pretty fun to work with, and finally, you get the
+added benefit of working with ES6/Node on both your frontend and
+backend -- not to mention the potential of easily using Socket-io for
+realtime communication between clients, say for something like a chat
+client.
+
+If I had to keep working on this project, I would replace the side nav
+bar with CSS and cut out other dependencies.
+
+** How to build
