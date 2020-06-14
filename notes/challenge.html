@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-06-13 Sat 18:39 -->
+<!-- 2020-06-13 Sat 19:25 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Wetbat Project</title>
@@ -240,28 +240,28 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org793c75b">1. Wetbat Project</a>
+<li><a href="#orgff12d7a">1. Wetbat Project</a>
 <ul>
-<li><a href="#orga30d1b7">1.1. Objective</a></li>
-<li><a href="#org65c6270">1.2. Implementation choices</a>
+<li><a href="#org0ca5230">1.1. Objective</a></li>
+<li><a href="#orgb605bef">1.2. Implementation choices</a>
 <ul>
-<li><a href="#orgb80c8a9">1.2.1. Backend: FeathersJS + sequelize ORM + MySQL/MariaDB</a></li>
-<li><a href="#org8d2cc73">1.2.2. Frontend: ReactJS + Material Dashboard Pro components</a></li>
+<li><a href="#orgf658f17">1.2.1. Backend: FeathersJS + sequelize ORM + MySQL/MariaDB</a></li>
+<li><a href="#orgb7551a0">1.2.2. Frontend: ReactJS + Material Dashboard Pro components</a></li>
 </ul>
 </li>
-<li><a href="#org2989405">1.3. Data achitecture</a></li>
-<li><a href="#org35a4d24">1.4. Developer notes</a></li>
-<li><a href="#org312f591">1.5. Build notes</a></li>
+<li><a href="#org06d6271">1.3. Data achitecture</a></li>
+<li><a href="#orgacc5714">1.4. Developer notes</a></li>
+<li><a href="#org611c191">1.5. Build notes</a></li>
 </ul>
 </li>
-<li><a href="#orgb0c8dfb">2. Bugs, notes, TODO</a>
+<li><a href="#org15b7a90">2. Bugs, notes, TODO</a>
 <ul>
 <li>
 <ul>
-<li><a href="#org71e39ac">2.0.1. Note</a></li>
-<li><a href="#orgf2270e8">2.0.2. <span class="todo TODO">TODO</span> Caching</a></li>
-<li><a href="#org870fdbd">2.0.3. <span class="todo TODO">TODO</span> The quotes table doesn't display after deleting a record</a></li>
-<li><a href="#org7bb2fe0">2.0.4. <span class="done DONE">DONE</span> Display last 5 quotes in svg map component on dashboard</a></li>
+<li><a href="#org276f40e">2.0.1. Note</a></li>
+<li><a href="#org498405e">2.0.2. <span class="todo TODO">TODO</span> Caching</a></li>
+<li><a href="#org956f642">2.0.3. <span class="todo TODO">TODO</span> The quotes table doesn't display after deleting a record</a></li>
+<li><a href="#org4052988">2.0.4. <span class="done DONE">DONE</span> Display last 5 quotes in svg map component on dashboard</a></li>
 </ul>
 </li>
 </ul>
@@ -269,24 +269,24 @@ for the JavaScript code in this tag.
 </ul>
 </div>
 </div>
-<div id="outline-container-org793c75b" class="outline-2">
-<h2 id="org793c75b"><span class="section-number-2">1</span> Wetbat Project</h2>
+<div id="outline-container-orgff12d7a" class="outline-2">
+<h2 id="orgff12d7a"><span class="section-number-2">1</span> Wetbat Project</h2>
 <div class="outline-text-2" id="text-1">
 </div>
-<div id="outline-container-orga30d1b7" class="outline-3">
-<h3 id="orga30d1b7"><span class="section-number-3">1.1</span> Objective</h3>
+<div id="outline-container-org0ca5230" class="outline-3">
+<h3 id="org0ca5230"><span class="section-number-3">1.1</span> Objective</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
-Develop RESTful app to manage airflight quotes
+Develop RESTful app to manage airflight quotes 
 </p>
 </div>
 </div>
-<div id="outline-container-org65c6270" class="outline-3">
-<h3 id="org65c6270"><span class="section-number-3">1.2</span> Implementation choices</h3>
+<div id="outline-container-orgb605bef" class="outline-3">
+<h3 id="orgb605bef"><span class="section-number-3">1.2</span> Implementation choices</h3>
 <div class="outline-text-3" id="text-1-2">
 </div>
-<div id="outline-container-orgb80c8a9" class="outline-4">
-<h4 id="orgb80c8a9"><span class="section-number-4">1.2.1</span> Backend: FeathersJS + sequelize ORM + MySQL/MariaDB</h4>
+<div id="outline-container-orgf658f17" class="outline-4">
+<h4 id="orgf658f17"><span class="section-number-4">1.2.1</span> Backend: FeathersJS + sequelize ORM + MySQL/MariaDB</h4>
 <div class="outline-text-4" id="text-1-2-1">
 <p>
 For the API layer I'm going to use <a href="https://feathersjs.com/">FeathersJS</a> which supports JSON and
@@ -308,8 +308,8 @@ volume in the db/ directory for data persistance across hosts.
 </div>
 </div>
 
-<div id="outline-container-org8d2cc73" class="outline-4">
-<h4 id="org8d2cc73"><span class="section-number-4">1.2.2</span> Frontend: ReactJS + Material Dashboard Pro components</h4>
+<div id="outline-container-orgb7551a0" class="outline-4">
+<h4 id="orgb7551a0"><span class="section-number-4">1.2.2</span> Frontend: ReactJS + Material Dashboard Pro components</h4>
 <div class="outline-text-4" id="text-1-2-2">
 <p>
 I decided to use some pre-styled components from <a href="https://www.creative-tim.com/product/material-dashboard-pro-react">Material Dashboard</a> to
@@ -326,8 +326,8 @@ management.
 </div>
 </div>
 
-<div id="outline-container-org2989405" class="outline-3">
-<h3 id="org2989405"><span class="section-number-3">1.3</span> Data achitecture</h3>
+<div id="outline-container-org06d6271" class="outline-3">
+<h3 id="org06d6271"><span class="section-number-3">1.3</span> Data achitecture</h3>
 <div class="outline-text-3" id="text-1-3">
 <p>
 The API exposes three endpoints:
@@ -421,8 +421,8 @@ display the coordinates in <a href="https://jvectormap.com/">jVectorMap</a>
 </div>
 
 
-<div id="outline-container-org35a4d24" class="outline-3">
-<h3 id="org35a4d24"><span class="section-number-3">1.4</span> Developer notes</h3>
+<div id="outline-container-orgacc5714" class="outline-3">
+<h3 id="orgacc5714"><span class="section-number-3">1.4</span> Developer notes</h3>
 <div class="outline-text-3" id="text-1-4">
 <p>
 This is the first time I've used third-party components in
@@ -433,8 +433,8 @@ React, so I had to rely on Material Dashboard to save time.
 
 <p>
 This lead me to learning about form validation in React; instead of
-doing validation by hand like I first did in CreateOrEditQuote.js, I
-used React Form Hooks for the contact form creation.  Learning a bit
+doing validation manually like in CreateOrEditQuote.js, others used
+React Form Hooks for the contact form creation. I ended reading a bit
 more about <a href="https://reactjs.org/docs/refs-and-the-dom.html">React refs and the DOM</a> in order to pass the refs to the
 inner components of Material Dashboard Pro components &#x2026;
 </p>
@@ -453,11 +453,11 @@ client.
 </div>
 
 
-<div id="outline-container-org312f591" class="outline-3">
-<h3 id="org312f591"><span class="section-number-3">1.5</span> Build notes</h3>
+<div id="outline-container-org611c191" class="outline-3">
+<h3 id="org611c191"><span class="section-number-3">1.5</span> Build notes</h3>
 <div class="outline-text-3" id="text-1-5">
 <p>
-The frontend and backend can be built simply by cding into their
+The frontend and backend can be built simply by cd'ing into their
 respective directories and either installing the npm packages locally
 and running npm start, or by deploying the dockerfiles provided into
 seperate containers:
@@ -478,22 +478,26 @@ The dockerfile for the backend also takes care of running the
 migrations and seeding the airports table. I've also created a seeder
 that uses <a href="https://github.com/marak/Faker.js/">faker</a> to populate the db with some fake records.
 </p>
+
+<p>
+There's a docker compose file that provides a mariadb image and
+phpmyadmin image to test against.
+</p>
 </div>
 </div>
 </div>
 
-
-<div id="outline-container-orgb0c8dfb" class="outline-2">
-<h2 id="orgb0c8dfb"><span class="section-number-2">2</span> Bugs, notes, TODO</h2>
+<div id="outline-container-org15b7a90" class="outline-2">
+<h2 id="org15b7a90"><span class="section-number-2">2</span> Bugs, notes, TODO</h2>
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-org71e39ac" class="outline-4">
-<h4 id="org71e39ac"><span class="section-number-4">2.0.1</span> Note</h4>
+<div id="outline-container-org276f40e" class="outline-4">
+<h4 id="org276f40e"><span class="section-number-4">2.0.1</span> Note</h4>
 <div class="outline-text-4" id="text-2-0-1">
 <p>
 I spent most of the time on this project learning about the backend,
-react hooks, passing data between components, and conditional
-rendering. I was testing mostly against a MariaDB docker
+react hooks, passing data and innerRefs between components, and
+conditional rendering. I was testing mostly against a MariaDB docker
 instance. Usually I use docker-compose on my vps which is a somewhat
 primitive method of orchestration, my understanding is that  it can be
 converted to a kubernetes cluster with the "kompose" command, but I
@@ -509,13 +513,13 @@ an backend seperately to heroku.
 </div>
 </div>
 
-<div id="outline-container-orgf2270e8" class="outline-4">
-<h4 id="orgf2270e8"><span class="section-number-4">2.0.2</span> <span class="todo TODO">TODO</span> Caching</h4>
+<div id="outline-container-org498405e" class="outline-4">
+<h4 id="org498405e"><span class="section-number-4">2.0.2</span> <span class="todo TODO">TODO</span> Caching</h4>
 <div class="outline-text-4" id="text-2-0-2">
 <p>
 Some components use caching by storing into context, mainly the quotes
 and contacts tables. Other components like the autocomplete input for
-the airport name is fetched asynchronously when the user needs it.
+the airport name are fetched asynchronously when the user needs it.
 </p>
 
 <p>
@@ -526,8 +530,8 @@ rows, and then fetch more as the user clicks next.
 </div>
 </div>
 
-<div id="outline-container-org870fdbd" class="outline-4">
-<h4 id="org870fdbd"><span class="section-number-4">2.0.3</span> <span class="todo TODO">TODO</span> The quotes table doesn't display after deleting a record</h4>
+<div id="outline-container-org956f642" class="outline-4">
+<h4 id="org956f642"><span class="section-number-4">2.0.3</span> <span class="todo TODO">TODO</span> The quotes table doesn't display after deleting a record</h4>
 <div class="outline-text-4" id="text-2-0-3">
 <p>
 have to renavigate to quotes to redisplay again. This should probably
@@ -536,8 +540,8 @@ be fixed by using history.push('/')
 </div>
 </div>
 
-<div id="outline-container-org7bb2fe0" class="outline-4">
-<h4 id="org7bb2fe0"><span class="section-number-4">2.0.4</span> <span class="done DONE">DONE</span> Display last 5 quotes in svg map component on dashboard</h4>
+<div id="outline-container-org4052988" class="outline-4">
+<h4 id="org4052988"><span class="section-number-4">2.0.4</span> <span class="done DONE">DONE</span> Display last 5 quotes in svg map component on dashboard</h4>
 <div class="outline-text-4" id="text-2-0-4">
 <p>
 The table above it is meaningless, but the markers on the map correspond
@@ -549,7 +553,7 @@ to the destination airport's coordinates from the last 5 quotes.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: garg</p>
-<p class="date">Created: 2020-06-13 Sat 18:39</p>
+<p class="date">Created: 2020-06-13 Sat 19:25</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

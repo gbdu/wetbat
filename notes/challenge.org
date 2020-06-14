@@ -4,7 +4,7 @@
 #+OPTIONS: _:nil
 * Wetbat Project
 ** Objective
-Develop RESTful app to manage airflight quotes
+Develop RESTful app to manage airflight quotes 
 ** Implementation choices
 *** Backend: FeathersJS + sequelize ORM + MySQL/MariaDB
 For the API layer I'm going to use [[https://feathersjs.com/][FeathersJS]] which supports JSON and
@@ -96,9 +96,11 @@ React. Although I have my own component library for VueJS built from
 scratch with Bootstrap5 styling, I didn't have such code on hand for
 React, so I had to rely on Material Dashboard to save time.
 
-Some forms are doing validation manually, like CreateOrEditQuote.js,
-others are using React Form Hooks, like for for the contact form
-creation. 
+This lead me to learning about form validation in React; instead of
+doing validation manually like in CreateOrEditQuote.js, others used
+React Form Hooks for the contact form creation. I ended reading a bit
+more about [[https://reactjs.org/docs/refs-and-the-dom.html][React refs and the DOM]] in order to pass the refs to the
+inner components of Material Dashboard Pro components ...
 
 For the API, it was also my first time working with FeathersJS and
 sequelizer, although the same ORM concepts applies with my previous
@@ -130,7 +132,7 @@ migrations and seeding the airports table. I've also created a seeder
 that uses [[https://github.com/marak/Faker.js/][faker]] to populate the db with some fake records.
 
 There's a docker compose file that provides a mariadb image and
-phpmyadmin image to test again.
+phpmyadmin image to test against.
 
 * Bugs, notes, TODO
 *** Note
@@ -150,7 +152,7 @@ an backend seperately to heroku.
 *** TODO Caching
 Some components use caching by storing into context, mainly the quotes
 and contacts tables. Other components like the autocomplete input for
-the airport name is fetched asynchronously when the user needs it.
+the airport name are fetched asynchronously when the user needs it.
 
 Pagination is enabled by default on FeathersJS, and we also have a
 react table with pagination, we could use this to fetch a few pages of
