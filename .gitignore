@@ -112,3 +112,4 @@ data/
 other/
 db/
 deploy/
+api/database.sqlite
