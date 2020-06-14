@@ -22,6 +22,7 @@ import buttonStyle from "assets/jss/material-dashboard-pro-react/components/butt
 
 import { ContactContext } from "../context/ContactContext";
 import { QuoteContext } from "../context/QuoteContext";
+import mylogo from "../assets/mylogo.png";
 
 import SweetAlert from "react-bootstrap-sweetalert";
 
@@ -168,7 +169,7 @@ export default function Dashboard(props) {
       <Sidebar
         routes={routes}
         logoText={"WetBat"}
-        logo={logo}
+        logo={mylogo}
         handleDrawerToggle={handleDrawerToggle}
         open={mobileOpen}
         color={color}

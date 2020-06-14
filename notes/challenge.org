@@ -4,16 +4,16 @@
 #+OPTIONS: _:nil
 * Wetbat Project
 ** Objective
-Develop RESTful CRUD app to manage airflight quotes
+Develop RESTful app to manage airflight quotes
 ** Implementation choices
-*** Backend: FeatherJS + sequelize ORM + MySQL/MariaDB
+*** Backend: FeathersJS + sequelize ORM + MySQL/MariaDB
 For the API layer I'm going to use [[https://feathersjs.com/][FeathersJS]] which supports JSON and
 realtime communication via Socket.io -- it also offers a cli which
 makes it easy to generate services/endpoints and processing hooks.
 
 We have a choice between multiple database adapters, but I decided to go
 with [[https://sequelize.org/][sequelize]] which is an ORM that supports Postgres, MySQL, MariaDB,
-SQLite and Microsoft SQL. It also provices a cli for managing
+SQLites and Microsoft SQL. It also provices a cli for managing
 migrations, model creation, seeding, etc.
 
 I configured it to run with a MariaDB Docker image -- which keeps a
@@ -47,7 +47,7 @@ contacts.hasMany(models.quotes, { foreignKey: { allowNull: false }, onDelete: 'C
 
 When the user requests a quote, we don't just want the user ID
 returned, as this means we'd have to make a second request to get the
-contact info, so we create a "hook" in feathers that will populate
+contact info, so we create a "hook" in Feathers that will populate
 the contact field with the complete contact info and pass it with the
 request. 
 
@@ -91,28 +91,76 @@ display the coordinates in [[https://jvectormap.com/][jVectorMap]]
 
 
 ** Developer notes
-This is my second React app, and the first time I've deployed
-third-party components. Although I have my own component library for
-VueJS built from scratch with Bootstrap5 styling, I didn't have such
-code on hand for React, so I had to rely on Material Dashboard to save
-time.
+This is the first time I've used third-party components in
+React. Although I have my own component library for VueJS built from
+scratch with Bootstrap5 styling, I didn't have such code on hand for
+React, so I had to rely on Material Dashboard to save time.
 
-This lead me to learning about form validation in React; instead of
-doing validation by hand like I first did in CreateQuote.js, I used
-React Form Hooks for the contact form creation.  Learning a bit more
-about [[https://reactjs.org/docs/refs-and-the-dom.html][React refs and the DOM]] in order to pass the refs to the inner
-components of Material ...
+Some forms are doing validation manually, like CreateOrEditQuote.js,
+others are using React Form Hooks, like for for the contact form
+creation. 
 
 For the API, it was also my first time working with FeathersJS and
 sequelizer, although the same ORM concepts applies with my previous
 experience with django-rest-framework, I actually found the sequelizer
-cli and feather cli pretty fun to work with, and finally, you get the
-added benefit of working with ES6/Node on both your frontend and
+cli and Feathers cli pretty fun to work with, and finally, you get the
+added benefit of working with ES6/NodeJS on both your frontend and
 backend -- not to mention the potential of easily using Socket-io for
 realtime communication between clients, say for something like a chat
 client.
 
-If I had to keep working on this project, I would replace the side nav
-bar with CSS and cut out other dependencies.
 
-** How to build
+** Build notes
+The frontend and backend can be built simply by cd'ing into their
+respective directories and either installing the npm packages locally
+and running npm start, or by deploying the dockerfiles provided into
+seperate containers:
+
+
+#+BEGIN_SRC bash
+cd frontend
+docker build -t myfrontend . 
+# deploy the image to any port you want
+docker run -d -p 5000:5000 --name myfrontendcontainer myfrontend
+#+END_SRC
+
+
+The dockerfile for the backend also takes care of running the
+migrations and seeding the airports table. I've also created a seeder
+that uses [[https://github.com/marak/Faker.js/][faker]] to populate the db with some fake records.
+
+There's a docker compose file that provides a mariadb image and
+phpmyadmin image to test again.
+
+* Bugs, notes, TODO
+*** Note
+I spent most of the time on this project learning about the backend,
+react hooks, passing data and innerRefs between components, and
+conditional rendering. I was testing mostly against a MariaDB docker
+instance. Usually I use docker-compose on my vps which is a somewhat
+primitive method of orchestration, my understanding is that  it can be
+converted to a kubernetes cluster with the "kompose" command, but I
+couldn't figure out how to do it -- I ended up spending more time
+reading about Minikube than working on the final product!
+
+Eventually I decided to swap out the MariaDB driver for sqlite in
+sequelizer (which only took one line) and then deploying the frontend
+an backend seperately to heroku.
+
+*** TODO Caching
+Some components use caching by storing into context, mainly the quotes
+and contacts tables. Other components like the autocomplete input for
+the airport name is fetched asynchronously when the user needs it.
+
+Pagination is enabled by default on FeathersJS, and we also have a
+react table with pagination, we could use this to fetch a few pages of
+rows, and then fetch more as the user clicks next.
+
+*** TODO The quotes table doesn't display after deleting a record
+have to renavigate to quotes to redisplay again. This should probably
+be fixed by using history.push('/') 
+
+*** DONE Display last 5 quotes in svg map component on dashboard
+The table above it is meaningless, but the markers on the map correspond
+to the destination airport's coordinates from the last 5 quotes.
+
