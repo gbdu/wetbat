@@ -1,1 +1,1 @@
-Please see https://frezr.com/wetbat/
+Please see https://frezr.com/wetbat/challenge.html
